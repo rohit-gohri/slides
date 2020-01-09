@@ -1,0 +1,28 @@
+kind: pipeline
+name: default
+
+steps:
+- name: install
+  image: node:12
+  commands:
+  - yarn
+
+- name: test
+  image: node:12
+  commands:
+  - yarn lint
+  - yarn test
+
+- name: build
+  image: node:12
+  commands:
+  - yarn build
+
+- name: npm
+  image: plugins/npm
+  settings:
+    token:
+      from_secret: npm_token
+  when:
+    event:
+    - tag

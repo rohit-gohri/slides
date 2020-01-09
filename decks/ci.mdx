@@ -69,7 +69,10 @@ I am a full stack developer with a keen interest in DevOps, I love optimising de
 
 <Notes>
 
-The process of continuously testing/building/etc your code as you **push** it so that problems get detected early, your main branch is never in a broken state and is **always** deployable.
+The process of continuously testing/building/etc your code as you **push** it so that 
+- problems get detected early
+- your main branch is never in a broken state, and
+- it is **always** deployable
 
 </Notes>
 
@@ -148,19 +151,12 @@ There are also small niche tools that plug into your existing infra, eg. DangerJ
 
 ---
 
-# Pick One?
-
-<Appear>
-
-# Or All of them? 🔥
-
-</Appear>
+# Pipelines & YAML
 
 <Notes>
 
-So for the demo I have already set up a simple repository on Github with create-react-app.
-
-I have also added yaml configs for various CI providers in one single repo. You can check how they are setup later.
+The code that runs on every push/event is termed as Pipelines. Most CI Servers expects a config defined in a .yaml file.
+The format is different for each Server.
 
 </Notes>
 
@@ -180,25 +176,40 @@ I have also added yaml configs for various CI providers in one single repo. You 
 
 <Tomato>Send link to slack channel at this time</Tomato>
 
-It would be great if you could take out your laptops and open the link:
+So for the demo I have already set up a simple repository on Github with create-react-app.
 
-- Fork the project
-- Clone it
-- Create and checkout to a new branch: `git checkout -b demo`
-- Do `npm i` or `yarn`
-- Start the website: `npm start` or `yarn start`
+I have added yaml configs for various CI providers in one single repo. You can check how they are setup later.
+
+It would be great if you could take out your laptops and open the link
 
 </Notes>
 
 ---
 
+# Make Some <Tomato>Changes</Tomato>
+<!-- TODO: Ask to do some specific change or let them do whatever. Want to see a mix of failing and passing pipelines -->
+
+- Fork the project
+- Clone it
+- Create and checkout to a new branch: `git checkout -b demo`
+- Do `npm i`
+- Start the website: `npm start`
+- Change something:
+    - Add a component OR
+    - Change some styling OR
+    - Something else
+
+---
+
 # Open a PR
 
-- Make some changes
-<!-- TODO: Ask to do some specific change or let them do whatever. Want to see a mix of failing and passing pipelines -->
 - Commit and push your code
 - Open the repository and Create a new PR
-- Wait for results
+- Wait for results from CI
+
+---
+
+# Let's see some results
 
 <Notes>
 
@@ -213,26 +224,30 @@ Wait for people to do this.
 
 </Notes>
 
+
 ---
 
 # How did this happen?
 
-Let's look at one example config (`.gitlab-ci.yml`)
+Let's look at one example config: `.gitlab-ci.yml`
 
 ---
 
 <CodeSurfer theme={codeTheme} title=".gitlab-ci.yml">
 
-```yaml file=../static/.gitlab-ci.yml
+```yaml file=../static/code/.gitlab-ci.yml
 ```
 
-```yaml 4,5 file=../static/.gitlab-ci.yml
+```yaml 3 title="Base Docker Image" file=../static/code/.gitlab-ci.yml
 ```
 
-```yaml 17:19 file=../static/.gitlab-ci.yml
+```yaml 5:7 title="Env variable overrides" file=../static/code/.gitlab-ci.yml
 ```
 
-```yaml 14,15 file=../static/.gitlab-ci.yml
+```yaml 16:28 title="The different stages" file=../static/code/.gitlab-ci.yml
+```
+
+```yaml 13:14 title="Runs before every stage" file=../static/code/.gitlab-ci.yml
 ```
 
 </CodeSurfer>
@@ -244,8 +259,84 @@ It is written in YAML(most of these are). This file defines a pipeline that will
 CodeSnippets:
 
 1. This is the base (Docker) image on which each stage in the pipeline will run 
-2. These are stages defined that we saw in the UI
-3. This script runs before every job in the pipeline
+2. Specify any env variable overrides
+3. These are stages defined that we saw in the UI
+4. This script runs before every job in the pipeline
+
+</Notes>
+
+---
+
+# Let's Add A New Stage
+
+`npm run lint`
+
+<Notes>
+
+Now that you have seen a basic pipeline config, and seen the result of one in a project. Let's try to extend it.
+
+So, I hope everyone knows what
+
+</Notes>
+
+---
+
+# Some Advanced Usage Patterns
+
+---
+
+<CodeSurfer
+  theme={codeTheme}>
+
+```yaml 21:28 title="Publish NPM Package" file=../static/code/npm.drone.yml
+```
+
+</CodeSurfer>
+
+<Notes>
+
+NPM modules can automatically be published after building and testing on every git tag release.
+
+</Notes>
+
+---
+
+<CodeSurfer
+  theme={codeTheme}>
+
+```yaml 10:16 title="Build Docs" file=../static/code/docs.drone.yml
+```
+
+```yaml 18:32 title="Publish Docs" subtitle="Using Github Pages" file=../static/code/docs.drone.yml
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- Docs can be generated from a Swagger file, JSDoc/JavaDoc, Postman collection etc.
+- And published to free static hosting like github pages, etc.
+
+</Notes>
+
+---
+
+<CodeSurfer
+  theme={codeTheme}>
+
+```yaml 38:41 title="Deploy the Code" file=../static/code/trigger.gitlab-ci.yml
+```
+
+```yaml 43:51 title="Trigger Downstream Pipelines" file=../static/code/trigger.gitlab-ci.yml
+```
+
+</CodeSurfer>
+
+<Notes>
+
+- Automated deploys can be initiated by the CI
+  - SSH keys and other secrets can be provided through env variables
+- Pipelines can be triggered for dependent projects after every release
 
 </Notes>
 
@@ -257,7 +348,7 @@ CodeSnippets:
 
 ##### 🖼 Presentation
 
-#### https://rohit-smpx.github.io/hello-ci-frontend
+#### https://github.com/rohit-smpx/slides
 
 #### <FontAwesomeIcon icon={faTwitter} /> - @rohit_gohri
 
@@ -267,7 +358,7 @@ CodeSnippets:
 
 <Notes>
 
-My presentation is also a js project (built with mdx-deck) and resides in the same repo as the one you used for the Demo. Feel free to check it out and suggest any changes.
+My presentation is also a js project (built with mdx-deck). Feel free to check it out and suggest any changes.
 
 </Notes>
 

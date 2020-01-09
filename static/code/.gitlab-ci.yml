@@ -1,6 +1,5 @@
 # http://docs.gitlab.com/ce/ci/yaml/README.html
 
-# https://hub.docker.com/r/library/node/tags/
 image: node:12
 
 variables:

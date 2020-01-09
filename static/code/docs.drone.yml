@@ -1,0 +1,32 @@
+kind: pipeline
+name: default
+
+steps:
+- name: install
+  image: node:12
+  commands:
+  - yarn
+
+- name: docs
+  image: node:12
+  commands:
+  - yarn docs
+  when:
+    event:
+    - tag
+
+- name: commit-and-push-docs
+  image: docker:git
+  environment:
+    GITHUB_TOKEN:
+      from_secret: github_token
+  commands:
+    - git config user.email "doc-user@company.com"
+    - git config user.name "Doc User"
+    - git add --all
+    - git commit -m "Updating docs, `date`"
+    - git remote add origin-docs https://$GITHUB_TOKEN@github.com/$DRONE_REPO.git > /dev/null 2>&1
+    - git push --set-upstream origin-docs master
+  when:
+    event:
+    - tag

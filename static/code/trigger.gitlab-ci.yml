@@ -1,0 +1,51 @@
+# http://docs.gitlab.com/ce/ci/yaml/README.html
+
+# https://hub.docker.com/r/library/node/tags/
+image: node:12
+
+variables:
+  CI: "true"
+  NODE_ENV: "test"
+
+cache:
+  paths:
+    - node_modules/
+
+before_script:
+  - npm install --unsafe-perm
+
+stages:
+  - test
+  - build
+  - deploy
+  - downstream
+
+test:
+  stage: test
+  script:
+    - npm test
+
+lint:
+  stage: test
+  script:
+    - npm run lint
+
+build:
+  stage: build
+  script:
+    - npm run build
+
+deploy:
+  stage: deploy
+  script:
+    - pm2 deploy dev
+
+trigger-consumer:
+  stage: downstream
+  trigger: user/api-consumer
+      
+trigger-frontend:
+  stage: downstream
+  trigger: 
+    project: user/project-frontend
+    branch: dev
