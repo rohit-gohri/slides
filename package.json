@@ -14,23 +14,8 @@
     "code-surfer": "^3.0.0"
   },
   "scripts": {
-    "start": "mdx-deck deck/deck.mdx",
-    "build": "mdx-deck build deck/deck.mdx"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "start": "mdx-deck deck/ci.mdx",
+    "build": "mdx-deck build deck/ci.mdx"
   },
   "devDependencies": {
     "mdx-deck": "^3.0.13"
