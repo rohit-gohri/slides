@@ -155,7 +155,9 @@ There are also small niche tools that plug into your existing infra, eg. DangerJ
 
 <Notes>
 
-The code that runs on every push/event is termed as Pipelines. Most CI Servers expects a config defined in a .yaml file.
+The code that runs on every push/event is termed as Pipelines. Different providers have different naming conventions.
+
+YAML(Yet Another Markup Language) is file format for declaring static information, it is used by a lot of popular Infrastructure as Code tools and most CI servers.
 The format is different for each Server.
 
 </Notes>
@@ -178,9 +180,13 @@ The format is different for each Server.
 
 So for the demo I have already set up a simple repository on Github with create-react-app.
 
-I have added yaml configs for various CI providers in one single repo. You can check how they are setup later.
-
 It would be great if you could take out your laptops and open the link
+
+I have added configs for 4 CI providers in one single repo. You can check how they are setup later.
+- Github
+- Gitlab
+- Drone
+- Travis
 
 </Notes>
 
@@ -194,17 +200,23 @@ It would be great if you could take out your laptops and open the link
 - Create and checkout to a new branch: `git checkout -b demo`
 - Do `npm i`
 - Start the website: `npm start`
-- Change something:
-    - Add a component OR
-    - Change some styling OR
-    - Something else
+- Change something
+
+<Notes>
+
+Could be:
+- Add a component OR
+- Change some styling OR
+- Something else
+
+</Notes>
 
 ---
 
 # Open a PR
 
 - Commit and push your code
-- Open the repository and Create a new PR
+- Open the Demo repository and Create a new PR
 - Wait for results from CI
 
 ---
@@ -224,7 +236,6 @@ Wait for people to do this.
 
 </Notes>
 
-
 ---
 
 # How did this happen?
@@ -241,7 +252,7 @@ Let's look at one example config: `.gitlab-ci.yml`
 ```yaml 3 title="Base Docker Image" file=../static/code/.gitlab-ci.yml
 ```
 
-```yaml 5:7 title="Env variable overrides" file=../static/code/.gitlab-ci.yml
+```yaml 5:7 title="ENV VAR overrides" file=../static/code/.gitlab-ci.yml
 ```
 
 ```yaml 16:28 title="The different stages" file=../static/code/.gitlab-ci.yml
@@ -254,12 +265,14 @@ Let's look at one example config: `.gitlab-ci.yml`
 
 <Notes>
 
-It is written in YAML(most of these are). This file defines a pipeline that will be run whenever you push your code. Let's look at what each of these mean:
+It is written in YAML. This file defines a pipeline that will be run whenever you push your code. Some providers allow triggering multiple pipelines. Let's look a little closer:
 
 CodeSnippets:
 
-1. This is the base (Docker) image on which each stage in the pipeline will run 
-2. Specify any env variable overrides
+1. This is the base (Docker) image on which each stage of the pipeline will be run
+2. Any env variable overrides can be specified
+  - Can be used to turn off some features
+  - Or Logging/Monitoring/etc.
 3. These are stages defined that we saw in the UI
 4. This script runs before every job in the pipeline
 
@@ -269,15 +282,29 @@ CodeSnippets:
 
 # Let's Add A New Stage
 
-`npm run lint`
+lint: `npm run lint`
 
 <Notes>
 
 Now that you have seen a basic pipeline config, and seen the result of one in a project. Let's try to extend it.
 
-So, I hope everyone knows what
+We have a linter(eslint) setup already in `package.json`. You can run it through the given command.
+
+Every pipeline has 2 steps currently: test & build. Let's ensure that the code is linted properly before we do any of those.
 
 </Notes>
+
+---
+
+<CodeSurfer theme={codeTheme}>
+
+```yaml 16:28 title="The different stages" file=../static/code/.gitlab-ci.yml
+```
+
+```yaml 16:34 title="The different stages" file=../static/code/lint.gitlab-ci.yml
+```
+
+</CodeSurfer>
 
 ---
 
@@ -337,6 +364,9 @@ NPM modules can automatically be published after building and testing on every g
 - Automated deploys can be initiated by the CI
   - SSH keys and other secrets can be provided through env variables
 - Pipelines can be triggered for dependent projects after every release
+
+
+NOTE: Open sapphire pipelines after this
 
 </Notes>
 

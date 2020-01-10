@@ -25,7 +25,7 @@ steps:
     - git config user.name "Doc User"
     - git add --all
     - git commit -m "Updating docs, `date`"
-    - git remote add origin-docs https://$GITHUB_TOKEN@github.com/$DRONE_REPO.git > /dev/null 2>&1
+    - git remote add origin-docs https://$GITHUB_TOKEN@github.com/$DRONE_REPO.git
     - git push --set-upstream origin-docs master
   when:
     event:
