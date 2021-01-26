@@ -2,6 +2,4 @@
 
 A repo for personal MDX-Deck based slides.
 
-## [Intro to CI](https://slides.gohri-rohit.now.sh/)
-
-Related Demo Repository: [hello-ci-frontend](https://github.com/rohit-gohri/hello-ci-frontend)
+## Moved to my blog : [Slides](https://rohit.page/slides/?utm_source=github&utm_medium=repo&utm_campaign=hf)
